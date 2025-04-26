@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Shield, Menu, X } from 'lucide-react';
+import { Outlet } from 'react-router-dom';
 export default function Navbar() {
  // State to toggle the mobile menu
  const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,8 @@ export default function Navbar() {
  };
 
  return (
-   <nav className="bg-cyber-dark p-2 font-sans-serif">
+<>
+   <nav className="bg-cyber-dark p-2 font-sans-serif border-b border-cyber-border">
 
      <div className="max-w-7xl mx-auto flex justify-between items-center">
        <div className="text-white text-xl ">
@@ -75,5 +77,26 @@ export default function Navbar() {
        </div>
      </div>
    </nav>
+   <Outlet/>
+   <footer className="bg-cyber-dark border-t border-cyber-border py-6">
+  <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 text-gray-400 text-sm">
+    
+    {/* Logo */}
+    <div className="flex items-center mb-4 md:mb-0">
+      <Shield className="h-8 w-8 text-cyber-blue mr-2" />
+      <span className="text-white font-bold">Cyber<span className="text-cyber-blue">Defense</span></span>
+    </div>
+
+    {/* Copyright */}
+    <div className="text-center">
+      © {new Date().getFullYear()} CyberDefense. All rights reserved.<br className="md:hidden" />
+      <span className="block md:inline"> | Educational purposes only.</span>
+    </div>
+
+  </div>
+</footer>
+   </>
+   
+   
  );
 }
