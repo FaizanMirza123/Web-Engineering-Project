@@ -7,16 +7,20 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start-server": "node src/ddosAttack/server.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.4",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.5",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "lucide-react": "^0.488.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.0",
+    "stress-tester": "^1.0.2",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
