@@ -3,7 +3,7 @@ import Index from "./Pages/Index";
 // import SQLInjection from "./pages/SQLInjection";
 // import XSSAttack from "./pages/XSSAttack";
 // import DDoSAttack from "./pages/DDoSAttack";
-// import NotFound from ".//NotFound";
+import NotFound from "./Pages/NotFound";
 import Navbar from "./Navbar";
 
 const App = () => (
@@ -13,8 +13,8 @@ const App = () => (
         <Route index element={<Index />} />
         {/* <Route path="sql-injection" element={<SQLInjection />} />
         <Route path="xss" element={<XSSAttack />} />
-        <Route path="ddos" element={<DDoSAttack />} />
-        <Route path="*" element={<NotFound />} /> */}
+        <Route path="ddos" element={<DDoSAttack />} />*/}
+        <Route path="*" element={<NotFound />} /> 
       </Route>
     </Routes>
   </BrowserRouter>
