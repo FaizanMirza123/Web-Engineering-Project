@@ -46,7 +46,7 @@ html, body {
 }
 }
 
-/* #root {
+ #root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif !important;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424 !important;
@@ -85,4 +85,3 @@ body
   color: rgb(156 163 175 / var(--tw-text-opacity, 1)) !important;
 }
 
- */
