@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Shield, Menu, X } from 'lucide-react';
-import { Outlet } from 'react-router-dom';
+import { Outlet,useNavigate  } from 'react-router-dom';
 export default function Navbar() {
  // State to toggle the mobile menu
  const [isOpen, setIsOpen] = useState(false);
-
+ const navigateTo = useNavigate();
  // Toggle function for the hamburger menu
  const toggleMenu = () => {
    setIsOpen(!isOpen);
@@ -15,8 +15,8 @@ export default function Navbar() {
    <nav className="bg-cyber-dark p-2 font-sans-serif border-b border-cyber-border">
 
      <div className="max-w-7xl mx-auto flex justify-between items-center">
-       <div className="text-white text-xl ">
-       <Shield className="h-11 w-11 text-cyber-blue inline p-1" />
+       <div className="text-white text-xl " onClick={() => navigateTo('/')}>
+       <Shield className="h-20 w-20 text-cyber-blue inline p-2 pb-4"  />
        <h1 className="font-bold inline">Cyber</h1>
        <h1 className="font-bold text-cyber-blue inline">Defense</h1>
        </div>
@@ -25,13 +25,13 @@ export default function Navbar() {
        <div className="hidden md:flex space-x-6">
        <button 
             onClick={() => navigateTo('/sql-injection')} 
-            className="text-white hover:text-cyber-blue transition-colors">
+            className="text-white hover:text-cyber-blue transition-colors p-3">
             SQL Injection
             </button>
 
             <button 
             onClick={() => navigateTo('/xss')} 
-            className="text-white hover:text-cyber-purple transition-colors"
+            className="text-white hover:text-cyber-purple transition-colors p-3"
           >
             XSS Attack
           </button>

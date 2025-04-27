@@ -19,7 +19,7 @@ const NotFound = () => {
     <div className="min-h-screen flex flex-col bg-cyber-dark">
       <div className="flex-grow flex items-center justify-center p-4">
         <div className="cyber-card max-w-md w-full text-center">
-          <Shield className="mx-auto text-cyber-blue h-16 w-16 mb-4" />
+          <Shield className="mx-auto text-cyber-blue h-20 w-20 mb-4" />
           <h1 className="text-4xl font-bold mb-4 text-white">404</h1>
           <div className="cyber-terminal mb-6">
             <p className="text-cyber-green"> Error: Page not found</p>

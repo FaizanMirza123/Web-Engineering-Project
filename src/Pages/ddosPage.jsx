@@ -3,7 +3,7 @@ import React from 'react'
 import { Zap } from 'lucide-react';
 import { Server } from 'lucide-react';
 import { AlertTriangle } from 'lucide-react';
-import "./css/ddosPage.css";
+import "../css/ddosPage.css";
 import { useState,useRef } from 'react';
 
 
