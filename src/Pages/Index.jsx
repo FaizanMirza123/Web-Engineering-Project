@@ -1,6 +1,8 @@
 import React from 'react'
 import { Database, ShieldAlert, Zap } from 'lucide-react'; 
+import { useNavigate } from 'react-router-dom';
 export default function Index() {
+  const navigateTo=useNavigate()
   return (
     <div className="min-h-screen bg-cyber-black flex flex-col items-center">
       {/* Top Titles */}
@@ -21,7 +23,7 @@ export default function Index() {
       <div className="flex justify-center py-8">
         <button className="animate-set px-6 py-3 border-2 border-cyber-blue
          text-cyber-blue text-[1.125rem] font-semibold hover:bg-cyber-fade transition-colors
-         rounded-[6px]">
+         rounded-[6px]" >
           Start Testing
         </button>
       </div>
@@ -43,7 +45,7 @@ export default function Index() {
           <p className="text-gray- py-4">Learn how attackers can manipulate SQL queries to access unauthorized data and how to prevent these attacks.</p>
           <button className="animate-set px-6 py-3 border-2 border-cyber-blue
          text-cyber-blue text-[1.125rem] font-semibold hover:bg-cyber-fade transition-colors
-         rounded-[6px]">
+         rounded-[6px]" onClick={() => navigateTo('/sql')}>
           Learn More
         </button>
 </div>
@@ -55,7 +57,7 @@ export default function Index() {
           <p className="text-white-400 py-4">Explore cross-site scripting vulnerabilities where malicious scripts are injected into trusted websites..</p>
           <button className="animate-set2 px-6 py-3 border-2 border-cyber-purple
          text-cyber-purple text-[1.125rem] font-semibold hover:bg-cyber-fade2 transition-colors
-         rounded-[6px]">
+         rounded-[6px]" onClick={() => navigateTo('/xss')}>
           Learn More
         </button>
         </div>
@@ -67,7 +69,7 @@ export default function Index() {
           <p className="text-white-400 pb-8">Understand how distributed denial-of-service attacks work by overwhelming servers with traffic.</p>
           <button className="animate-set3 px-6 py-3 border-2 border-cyber-green
          text-cyber-green text-[1.125rem] font-semibold hover:bg-cyber-fade3 transition-colors
-         rounded-[6px]">
+         rounded-[6px]" onClick={() => navigateTo('/ddos')}>
           Learn More
         </button>
         </div>

@@ -3,6 +3,9 @@ import React from 'react'
 import { Zap } from 'lucide-react';
 import { Server } from 'lucide-react';
 import { AlertTriangle } from 'lucide-react';
+import "../css/ddosPage.css";
+import { useState,useRef } from 'react';
+
 
 const DdosPage = () => {
     const ddosData = [
@@ -46,6 +49,27 @@ http {
     }
   }
 }`
+
+ const [targetUrl, setTargetUrl] = useState('');
+  const [message, setMessage] = useState('');
+  let inputRef=useRef(null);
+  let reqRef=useRef(null);
+  let durationRef=useRef(null);
+
+  const startAttack = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/start-attack', {
+        targetUrl: inputRef.current.value,
+        requestsPerSecond: 100,  
+        durationSeconds: 30
+      });
+
+      setMessage(response.data);  // "Started attack on..."
+    } catch (error) {
+      console.error(error);
+      setMessage('Error starting attack.');
+    }
+  };
 
 
       
@@ -105,6 +129,16 @@ http {
 
 
     </div>
+    <div className='test-section my-5'>
+    <form action="">
+      <h2>Test your <span className='text-cyber-green'>Website</span></h2>
+      <input type="url" name="" id="" placeholder='Enter URL' className='col-10 url-testing-field my-2' ref={inputRef}/>
+      <input type="number" name="" id="" placeholder='Choose Requests Per Second' className='col-10 url-testing-field my-2' ref={reqRef}/>
+      <input type="number" name="" id="" placeholder='Duration (Seconds)' className='col-10 url-testing-field my-2' />
+      <button className='startTestingBtn col-10 my-2' onClick={()=>{startAttack();}} ref={durationRef}>Start Testing</button>
+    </form>
+    </div>
+
     <div className='guide-section row text-center justify-content-center'>
     <h2 className='text-center text-cyber-green'>Protection Guide</h2>
     <div className='card col-9 text-start'>
