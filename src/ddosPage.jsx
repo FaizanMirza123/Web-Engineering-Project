@@ -4,7 +4,8 @@ import { Zap } from 'lucide-react';
 import { Server } from 'lucide-react';
 import { AlertTriangle } from 'lucide-react';
 import "./css/ddosPage.css";
-import { useState,useRef } from 'react';
+import { useState,useRef,useEffect } from 'react';
+import axios from 'axios';
 
 
 const DdosPage = () => {
@@ -55,13 +56,36 @@ http {
   let inputRef=useRef(null);
   let reqRef=useRef(null);
   let durationRef=useRef(null);
+  const [logs, setLogs] = useState([]);
+  const ws = useRef(null);
 
-  const startAttack = async () => {
+
+  
+
+  useEffect(() => {
+    ws.current = new WebSocket('ws://localhost:3000');
+
+    ws.current.onmessage = (event) => {
+      console.log(event.message)
+      setLogs(prev => [...prev, event.data]);
+    };
+
+    return () => {
+      if (ws.current) {
+        ws.current.close();
+      }
+    };
+  }, []);
+
+
+  const startAttack = async (e) => {
+    e.preventDefault(); // prevent page reload
+    console.log("button pressed");
     try {
       const response = await axios.post('http://localhost:3000/start-attack', {
         targetUrl: inputRef.current.value,
-        requestsPerSecond: 100,  
-        durationSeconds: 30
+        requestsPerSecond: parseInt(reqRef.current.value),  
+        durationSeconds: parseInt(durationRef.current.value)
       });
 
       setMessage(response.data);  // "Started attack on..."
@@ -130,14 +154,19 @@ http {
 
     </div>
     <div className='test-section my-5'>
-    <form action="">
+  
       <h2>Test your <span className='text-cyber-green'>Website</span></h2>
       <input type="url" name="" id="" placeholder='Enter URL' className='col-10 url-testing-field my-2' ref={inputRef}/>
       <input type="number" name="" id="" placeholder='Choose Requests Per Second' className='col-10 url-testing-field my-2' ref={reqRef}/>
-      <input type="number" name="" id="" placeholder='Duration (Seconds)' className='col-10 url-testing-field my-2' />
-      <button className='startTestingBtn col-10 my-2' onClick={()=>{startAttack();}} ref={durationRef}>Start Testing</button>
-    </form>
+      <input type="number" name="" id="" placeholder='Duration (Seconds)' className='col-10 url-testing-field my-2' ref={durationRef} />
+      <button className='startTestingBtn col-10 my-2' onClick={startAttack}>Start Testing</button>
     </div>
+    <div className="log-console p-3 mt-4 cyber-terminal" style={{ backgroundColor: '#000', color: '#0f0', maxHeight: '300px', overflowY: 'scroll' }}>
+        {logs.map((log, i) => (
+          <div key={i}>{log}</div>
+        ))}
+      </div>
+
 
     <div className='guide-section row text-center justify-content-center'>
     <h2 className='text-center text-cyber-green'>Protection Guide</h2>

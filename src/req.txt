@@ -3,3 +3,4 @@ stress-tester
 lucide-react
 cors
 express
+ws
