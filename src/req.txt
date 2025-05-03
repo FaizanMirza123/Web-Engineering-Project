@@ -4,3 +4,7 @@ lucide-react
 cors
 express
 ws
+mongoose
+cors
+body-parser
+axios
