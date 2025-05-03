@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {BrowserRouter,Routes,Route,Navigate,} from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Index from "./Pages/Index";
@@ -15,16 +15,15 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [serverError, setServerError] = useState(false);
 
-  // Check if the user is logged in by checking the token in localStorage
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        await axios.get("http://localhost:5000/api/auth/status"); // Check server status
+        await axios.get("http://localhost:5000/api/auth/status");
         if (localStorage.getItem("token")) {
           setIsLoggedIn(true);
         }
       } catch (error) {
-        setServerError(true); // Handle server error
+        setServerError(true);
       }
       setLoading(false);
     };
@@ -43,15 +42,35 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path="/" element={<Navbar setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />}>
-          {/* Redirect logged-in users to Index, others to Login */}
+        <Route
+          path="/"
+          element={
+            <Navbar setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+          }
+        >
           <Route
             index
-            element={isLoggedIn ? <Index /> : <Navigate to="/login" />}
+            element={(() => {
+              if (isLoggedIn) {
+                return <Index />;
+              } else {
+                return <Navigate to="/login" />;
+              }
+            })()}
           />
-          <Route path="login" element={isLoggedIn ? <Navigate to="/" /> : <Login />} />
-          
-          {/* Protected Routes */}
+
+          <Route
+            path="login"
+            element={(() => {
+              if (isLoggedIn) {
+                return <Navigate to="/" />;
+              } else {
+                return <Login setIsLoggedIn={setIsLoggedIn} />;
+              }
+            })()}
+          />
+
+
           <Route
             path="ddos"
             element={

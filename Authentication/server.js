@@ -13,7 +13,9 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URI).then(()=>console.log("Successfully Connected")).catch((err)=>console.log(err))
 app.use('/api/auth',authRoutes)
 
+
 app.get('/api/auth/status', (req, res) => {
     res.status(200).json({ message: "Server is running" });
   });
+
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
