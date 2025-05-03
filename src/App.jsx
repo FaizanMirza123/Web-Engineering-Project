@@ -1,24 +1,86 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Index from "./Pages/Index";
 import SQLInjectionPage from "./Pages/SQLInjectionPage";
-// import XSSAttack from "./pages/XSSAttack";
-// import DDoSAttack from "./pages/DDoSAttack";
-import NotFound from "./Pages/NotFound";
-import Navbar from "./Navbar";
 import XSSAttack from "./Pages/XSSAttack";
 import DdosPage from "./Pages/ddosPage";
-const App = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Navbar />}>
-        <Route index element={<Index />} />
-        <Route path="ddos" element={<DdosPage />}/>
-        <Route path="xss" element={<XSSAttack />} />
-        <Route path="sql-injection" element={<SQLInjectionPage />} />
-        <Route path="*" element={<NotFound />} /> 
-      </Route>
-    </Routes>
-  </BrowserRouter>
-);
+import NotFound from "./Pages/NotFound";
+import Navbar from "./Navbar";
+import Login from "./Pages/Login";
+import ProtectedRoute from "./ProtectedRoute";
+
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [serverError, setServerError] = useState(false);
+
+  // Check if the user is logged in by checking the token in localStorage
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        await axios.get("http://localhost:5000/api/auth/status"); // Check server status
+        if (localStorage.getItem("token")) {
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        setServerError(true); // Handle server error
+      }
+      setLoading(false);
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (serverError) {
+    return <div>Server is not running. Please start the server.</div>;
+  }
+
+  return (
+    <BrowserRouter>
+      <Routes>
+      <Route path="/" element={<Navbar setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />}>
+          {/* Redirect logged-in users to Index, others to Login */}
+          <Route
+            index
+            element={isLoggedIn ? <Index /> : <Navigate to="/login" />}
+          />
+          <Route path="login" element={isLoggedIn ? <Navigate to="/" /> : <Login />} />
+          
+          {/* Protected Routes */}
+          <Route
+            path="ddos"
+            element={
+              <ProtectedRoute>
+                <DdosPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="xss"
+            element={
+              <ProtectedRoute>
+                <XSSAttack />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="sql-injection"
+            element={
+              <ProtectedRoute>
+                <SQLInjectionPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
