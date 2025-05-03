@@ -19,19 +19,19 @@ export const performDDoSAttack = (targetUrl, requestsPerSecond, durationSeconds,
     });
 
     worker.on('message', msg => {
-      const log = `[Thread ${i + 1}] ${msg}`;
+      const log = `server> ${msg}`;
       console.log(log);
       broadcastLog(log);
     });
 
     worker.on('error', err => {
-      const errMsg = `[Thread ${i + 1}] Error: ${err.message}`;
+      const errMsg = `server> Error: ${err.message}`;
       console.error(errMsg);
       broadcastLog(errMsg);
     });
 
     worker.on('exit', code => {
-      const exitMsg = `[Thread ${i + 1}] Exited with code ${code}`;
+      const exitMsg = `server>[ Attack Thread ${i + 1}] Exited with code ${code}`;
       console.log(exitMsg);
       broadcastLog(exitMsg);
     });

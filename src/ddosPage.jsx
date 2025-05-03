@@ -153,7 +153,7 @@ http {
 
 
     </div>
-    <div className='test-section my-5'>
+    <div className='test-section mt-5 mb-2'>
   
       <h2>Test your <span className='text-cyber-green'>Website</span></h2>
       <input type="url" name="" id="" placeholder='Enter URL' className='col-10 url-testing-field my-2' ref={inputRef}/>
@@ -161,14 +161,15 @@ http {
       <input type="number" name="" id="" placeholder='Duration (Seconds)' className='col-10 url-testing-field my-2' ref={durationRef} />
       <button className='startTestingBtn col-10 my-2' onClick={startAttack}>Start Testing</button>
     </div>
-    <div className="log-console p-3 mt-4 cyber-terminal" style={{ backgroundColor: '#000', color: '#0f0', maxHeight: '300px', overflowY: 'scroll' }}>
+    <h4 className='text-center text-cyber-green'>Server Logs</h4>
+    <div className="log-console p-3 mt-4 cyber-terminal col-10 m0a" style={{ backgroundColor: '#000', color: '#0f0', maxHeight: '300px', overflowY: 'scroll' }}>
         {logs.map((log, i) => (
           <div key={i}>{log}</div>
         ))}
       </div>
 
 
-    <div className='guide-section row text-center justify-content-center'>
+    <div className='guide-section row text-center justify-content-center mt-3'>
     <h2 className='text-center text-cyber-green'>Protection Guide</h2>
     <div className='card col-9 text-start'>
     <div className='d-inline-flex text-center justify-content-center'>
