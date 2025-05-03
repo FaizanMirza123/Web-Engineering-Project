@@ -4,11 +4,11 @@ import './index.css'
 import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
-import DdosPage from './ddosPage.jsx'
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <DdosPage />
-    {/* <App /> */}
+    <App />
+ 
   </StrictMode>,
 )
