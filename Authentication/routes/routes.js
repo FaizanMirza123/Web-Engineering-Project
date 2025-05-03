@@ -43,4 +43,9 @@ router.post("/login",async(req,res)=>{
         res.send(500).json({error:err});
     }
 })
+
+router.post("/status", (req, res) => {
+    res.status(200).json({ message: "Server is running" });
+  })
+
 module.exports= router
