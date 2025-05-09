@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../features/auth/authSlice";
 export default function Login({ setIsLoggedIn }) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -9,7 +10,7 @@ export default function Login({ setIsLoggedIn }) {
   const pass2 = useRef();
   const navigate = useNavigate();
   const toggleForm = () => setIsLogin(!isLogin);
-
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     const password = pass1.current.value;
@@ -25,6 +26,14 @@ export default function Login({ setIsLoggedIn }) {
         });
         localStorage.setItem("token", res.data.token);
         setIsLoggedIn(true);
+        dispatch(
+          loginSuccess({
+            token: res.data.token,
+            user: res.data.user,
+            email: email,
+          })
+        );
+
         navigate("/");
       } else {
         if (!password || !confirmPassword) {
@@ -43,12 +52,20 @@ export default function Login({ setIsLoggedIn }) {
           }
         );
         localStorage.setItem("token", res.data.token);
+
+        dispatch(
+          loginSuccess({
+            token: res.data.token,
+            user: res.data.user,
+            email: email,
+          })
+        );
         alert("Registration successful!");
 
         setIsLogin(true);
       }
     } catch (err) {
-      alert("Error occurred");
+      alert(err);
     }
   };
 

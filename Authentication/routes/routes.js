@@ -35,12 +35,13 @@ router.post("/login",async(req,res)=>{
         const isMatch =await bcrypt.compare(password,exist.password);
         if(!isMatch)
             return res.status(400).json({message:"Password is Wrong, Forget Password?"});
-        const token =jwt.sign({id:exist._id},JWT_SECRET);
-        res.json({token})
+        const token =jwt.sign({id:exist._id},JWT_SECRET, { expiresIn: '1h' });
+          res.json({ token, user: {  name: exist.name } });
 
     }
     catch(err){
-        res.send(500).json({error:err});
+       res.status(500).json({ error: err.message || "Internal Server Error" });
+
     }
 })
 
