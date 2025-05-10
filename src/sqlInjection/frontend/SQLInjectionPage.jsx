@@ -1,48 +1,44 @@
-// src/SQLInjectionPage.js
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function SQLInjectionPage() {
-  const [username, setUsername] = useState('');
-  const [queryResult, setQueryResult] = useState('No results found');
+  const [url, setUrl] = useState('');
+  const [param, setParam] = useState('');
+  const [results, setResults] = useState([]);
+  const [error, setError] = useState('');
   const [terminalLog, setTerminalLog] = useState(
     'SQL Injection Practice Terminal\nType "help" for available commands\n\n'
   );
 
-  // real fetch to your Node.js + MySQL backend
-  function handleExecute() {
-    fetch("http://localhost:3000/query", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ username })
-    })
-      .then(res => res.json())
-      .then(data => {
-        setQueryResult(JSON.stringify(data, null, 2));
-      })
-      .catch(err => {
-        setQueryResult("Error: " + err.message);
+  // Execute generic SQL injection scan via backend
+  const handleCheck = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/check/scan', {
+        targetUrl: url,
+        paramName: param
       });
-  }
+      setResults(response.data || []);
+      setError('');
+    } catch (err) {
+      setError('Request failed. Make sure the backend is running and URL is correct.');
+      setResults([]);
+      console.error('Error during request:', err);
+    }
+  };
 
-  // allow "query <name>" in the terminal
+  // Allow "query <name>" commands in the terminal
   function handleTerminalKey(e) {
     if (e.key === 'Enter') {
       e.preventDefault();
       const cmd = e.target.value.trim();
-  
-      fetch('http://localhost:3000/terminal-query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query: cmd })
-      })
-        .then(res => res.json())
-        .then(data => {
+
+      axios.post('http://localhost:3000/terminal-query', { query: cmd })
+        .then(res => {
+          const data = res.data;
           const output = Array.isArray(data)
             ? JSON.stringify(data, null, 2)
             : data.error || data.message || 'Unknown response';
-  
+
           setTerminalLog(prev => prev + `> ${cmd}\n${output}\n\n`);
           e.target.value = '';
         })
@@ -52,11 +48,10 @@ export default function SQLInjectionPage() {
         });
     }
   }
-  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-teal-600 text-white px-6 py-10">
-      {/* 1. Conceptual Sections */}
+      {/* Conceptual Sections */}
       <section className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-opacity-50 bg-black p-6 rounded-lg">
           <h2 className="text-teal-300 text-2xl font-semibold mb-4">
@@ -90,29 +85,43 @@ export default function SQLInjectionPage() {
         </div>
       </section>
 
-      {/* 2. Interactive Demo */}
+      {/* Interactive Tester */}
       <section className="grid md:grid-cols-2 gap-8 mt-12">
-        {/* Query Interface */}
+        {/* URL & Param Tester */}
         <div className="bg-opacity-50 bg-black p-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-4">SQL Query Interface</h3>
-          <pre className="bg-gray-800 bg-opacity-75 p-3 rounded mb-4 font-mono">
-            {`SELECT * FROM users WHERE username = '${username}' ;`}
-          </pre>
+          <h3 className="text-xl font-semibold mb-4">SQL Injection Tester</h3>
           <input
             type="text"
-            placeholder="Enter username to search"
+            placeholder="Target URL (e.g. http://localhost:3000/login)"
+            value={url}
+            onChange={e => setUrl(e.target.value)}
             className="w-full p-2 mb-3 bg-gray-700 bg-opacity-75 rounded text-white"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Parameter to test (e.g. username)"
+            value={param}
+            onChange={e => setParam(e.target.value)}
+            className="w-full p-2 mb-3 bg-gray-700 bg-opacity-75 rounded text-white"
           />
           <button
-            onClick={handleExecute}
+            onClick={handleCheck}
             className="px-4 py-2 bg-teal-500 rounded hover:bg-teal-600 transition"
           >
-            Execute Query
+            Run Test
           </button>
+
+          {error && <p className="mt-4 text-red-400">{error}</p>}
+
           <div className="mt-4 text-green-300">
-            <pre className="whitespace-pre-wrap">{queryResult}</pre>
+            <h4 className="font-semibold">Results:</h4>
+            {results.length === 0 ? (
+              <p>No results or no vulnerabilities found.</p>
+            ) : (
+              <pre className="whitespace-pre-wrap bg-gray-800 bg-opacity-75 p-3 rounded">
+                {JSON.stringify(results, null, 2)}
+              </pre>
+            )}
           </div>
         </div>
 
@@ -131,7 +140,7 @@ export default function SQLInjectionPage() {
         </div>
       </section>
 
-      {/* 3. Prevention Guide */}
+      {/* Prevention Guide */}
       <section className="space-y-8 mt-12">
         <h2 className="text-teal-300 text-2xl font-semibold">How to Prevent SQL Injection</h2>
         <div className="bg-opacity-50 bg-black p-6 rounded-lg space-y-4">

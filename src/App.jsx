@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./Pages/Index";
-import SQLInjectionPage from "./Pages/SQLInjectionPage";
+import SQLInjectionPage from "./sqlInjection/frontend/SQLInjectionPage";
 // import XSSAttack from "./pages/XSSAttack";
 // import DDoSAttack from "./pages/DDoSAttack";
 import NotFound from "./Pages/NotFound";
