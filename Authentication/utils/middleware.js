@@ -1,16 +1,16 @@
 const jwt=require("jsonwebtoken");
 
-const JWT_SECRET=process.env.JWT_SECRET;
+const JWT_SECRET="supersecretkey";
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+console.log(JWT_SECRET)
+  if (!token) return res.status(401).send('No token provided');
 
-const authenticateToken=(req,res,next)=>{
-    const authHeader=req.headers['authorization'];
-    const token=authHeader&&authHeader.split(' ')[1];
-
-    if(!token)return res.status.send(401)
-
-    jwt.verify(token,JWT_SECRET,(err,user)=>{
-        if(err)return res.sendStatus(403);
-        req.user=user;
-        next();
-    })
-}
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+};
+module.exports=authenticateToken

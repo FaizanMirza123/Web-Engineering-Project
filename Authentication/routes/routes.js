@@ -8,7 +8,7 @@ const mysql = require('mysql');
 const JWT_SECRET="supersecretkey";
 const XSS=require("../Models/XSSModel");
 const {scanEndpoint}=require("../lib/scanner")
-
+const authenticateToken=require("../utils/middleware")
 // const db = mysql.createConnection({
 //   host: 'localhost',       // Database host
 //   user: 'root',            // Database user
@@ -177,4 +177,18 @@ router.post("/save-xss", async (req, res) => {
   }
 });
 
+router.get('/userdata', authenticateToken, async (req, res) => {
+  try {
+  
+    const user = await User.findById(req.user.id);
+    const xssData = await XSS.find({ useremail: user.email });
+
+    res.json({
+      user,
+      xssData,
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching data', error: err.message });
+  }
+});
 module.exports= router
