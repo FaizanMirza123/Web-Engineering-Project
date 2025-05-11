@@ -45,7 +45,7 @@ router.post("/register",async(req,res)=>{
 });
 
 router.post("/login",async(req,res)=>{
-    console.log(JWT_SECRET)
+   
     const {email,password}=req.body
     console.log("Login Attempt:", { email });
     try{
@@ -123,7 +123,7 @@ router.post("/test-xss", async (req, res) => {
 });
 
 
-// Terminal-style injection tester
+
 router.post('/terminal-query', (req, res) => {
 //   const sql = req.body.query;
 //   if (!sql || sql.trim() === '') {
@@ -147,8 +147,8 @@ router.post("/status", (req, res) => {
   })
 
 router.post('/scan', async (req, res) => {
-  console.log('🔍 POST /check/scan hit');           // <-- log route hit
-  console.log('   Request body:', req.body);        // <-- log incoming JSON
+  console.log('🔍 POST /check/scan hit');          
+  console.log('   Request body:', req.body);        
 
   const { targetUrl, paramName } = req.body;
   if (!targetUrl || !paramName) {
@@ -158,10 +158,10 @@ router.post('/scan', async (req, res) => {
 
   try {
     const results = await scanEndpoint(targetUrl, paramName);
-    console.log('   scanEndpoint results:', results);  // <-- log scan results
+    console.log('   scanEndpoint results:', results);  
     res.json(results);
   } catch (err) {
-    console.error('❌ scanEndpoint error:', err);       // <-- log internal error
+    console.error('❌ scanEndpoint error:', err);      
     res.status(500).json({ error: 'Internal server error' });
   }
 });

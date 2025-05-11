@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Shield } from "lucide-react";
 import { useNavigate, Outlet } from "react-router-dom";
-import { motion } from "framer-motion";
 
 export default function Navbar({ setIsLoggedIn, isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +60,6 @@ export default function Navbar({ setIsLoggedIn, isLoggedIn }) {
             </div>
           )}
 
-          {/* Hamburger Icon for Mobile */}
           <div className="md:hidden p-4">
             <button onClick={toggleMenu} className="text-white">
               <svg

@@ -1,8 +1,6 @@
-
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Shield } from "lucide-react";
-
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -23,7 +21,10 @@ const NotFound = () => {
           <h1 className="text-4xl font-bold mb-4 text-white">404</h1>
           <div className="cyber-terminal mb-6">
             <p className="text-cyber-green"> Error: Page not found</p>
-            <p className="text-cyber-green"> System could not locate requested resource</p>
+            <p className="text-cyber-green">
+              {" "}
+              System could not locate requested resource
+            </p>
             <p className="text-cyber-green">Initiating return protocol...</p>
           </div>
           <p className="text-xl text-white mb-6">
@@ -31,14 +32,14 @@ const NotFound = () => {
           </p>
           <button
             onClick={() => navigate("/")}
-             className="animate-set px-6 py-3 border-2 border-cyber-blue
+            className="animate-set px-6 py-3 border-2 border-cyber-blue
          text-cyber-blue text-[1.125rem] font-semibold hover:bg-cyber-fade transition-colors
-         rounded-[6px]">
+         rounded-[6px]"
+          >
             Return to Base
           </button>
         </div>
       </div>
-     
     </div>
   );
 };

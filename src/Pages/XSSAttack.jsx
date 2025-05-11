@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import xssimg from "../assets/xssimg.jfif";
 import xsstype from "../assets/xsstypeimg.jpg";
 import preventimg from "../assets/preventimg.webp";
-import DOMPurify from "dompurify";
+
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -59,7 +59,7 @@ const XSSAttack = (props) => {
       }
 
       const data = await response.json();
-      console.log("XSS Test Result:", data); // Debugging line
+      console.log("XSS Test Result:", data);
       setXssResult(data);
       dispatch(storeresponse(xssResult));
       const date = new Date();

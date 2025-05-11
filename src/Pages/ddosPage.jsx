@@ -1,5 +1,5 @@
 import { Shield } from "lucide-react";
-import React from "react";
+
 import { Zap } from "lucide-react";
 import { Server } from "lucide-react";
 import { AlertTriangle } from "lucide-react";
@@ -76,7 +76,7 @@ http {
   }, []);
 
   const startAttack = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     console.log("button pressed");
     try {
       const response = await axios.post("http://localhost:5000/start-attack", {
@@ -93,17 +93,15 @@ http {
   };
   const DomainCheck = (e) => {
     console.log("Domain Check");
-    e.preventDefault(); 
+    e.preventDefault();
 
     const Userdomain = email.split("@")[1];
     const webDomain = inputRef.current.value.split("@")[1];
     if (Userdomain === webDomain) startAttack(e);
-    else
-    {
+    else {
       //alert("This domain doesn't belong to you.");
       startAttack(e);
-
-    } 
+    }
   };
   return (
     <>

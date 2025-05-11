@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { storeresponse } from "../features/auth/sqlSlice"; // Adjust the path based on your file structure
-
-
+import { storeresponse } from "../features/auth/sqlSlice";
 
 export default function SQLInjectionPage() {
-    const useremail1 = useSelector((state) => state.auth.email);
+  const useremail1 = useSelector((state) => state.auth.email);
   const dispatch = useDispatch();
   const [url, setUrl] = useState("");
   const [param, setParam] = useState("");
@@ -16,42 +14,46 @@ export default function SQLInjectionPage() {
     'SQL Injection Practice Terminal\nType "help" for available commands\n\n'
   );
 
- const handleCheck = async () => {
-  console.log("🔍 Initiating SQL injection scan...");
+  const handleCheck = async () => {
+    console.log("🔍 Initiating SQL injection scan...");
 
-  try {
-    const response = await axios.post("http://localhost:5000/api/auth/scan", {
-      targetUrl: url,
-      paramName: param,
-    });
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/scan", {
+        targetUrl: url,
+        paramName: param,
+      });
 
-    const data = response.data || [];
-    console.log("✅ Scan completed. Response:", data);
+      const data = response.data || [];
+      console.log("✅ Scan completed. Response:", data);
 
-    setResults(data);
-    dispatch(storeresponse(data)); // Redux
-    console.log("🧠 Stored scan result in Redux.");
+      setResults(data);
+      dispatch(storeresponse(data));
+      console.log("🧠 Stored scan result in Redux.");
 
-    // Prepare save payload
-    const savePayload = {
-      useremail: useremail1, 
-      date: new Date().toISOString(),
-      type: "sql-injection",
-      result: data,
-    };
+      const savePayload = {
+        useremail: useremail1,
+        date: new Date().toISOString(),
+        type: "sql-injection",
+        result: data,
+      };
 
-    console.log("📤 Saving result to MongoDB via /save-sql:", savePayload);
+      console.log("📤 Saving result to MongoDB via /save-sql:", savePayload);
 
-    const saveResponse = await axios.post("http://localhost:5000/api/auth/save-sql", savePayload);
-    console.log("✅ Saved to MongoDB. Server says:", saveResponse.data);
+      const saveResponse = await axios.post(
+        "http://localhost:5000/api/auth/save-sql",
+        savePayload
+      );
+      console.log("✅ Saved to MongoDB. Server says:", saveResponse.data);
 
-    setError("");
-  } catch (err) {
-    console.error("❌ Request or save failed:", err);
-    setError("Request failed. Make sure the backend is running and URL is correct.");
-    setResults([]);
-  }
-};
+      setError("");
+    } catch (err) {
+      console.error("❌ Request or save failed:", err);
+      setError(
+        "Request failed. Make sure the backend is running and URL is correct."
+      );
+      setResults([]);
+    }
+  };
 
   const handleTerminalKey = (e) => {
     if (e.key === "Enter") {
@@ -70,7 +72,9 @@ export default function SQLInjectionPage() {
           e.target.value = "";
         })
         .catch((err) => {
-          setTerminalLog((prev) => prev + `> ${cmd}\nERROR: ${err.message}\n\n`);
+          setTerminalLog(
+            (prev) => prev + `> ${cmd}\nERROR: ${err.message}\n\n`
+          );
           e.target.value = "";
         });
     }
@@ -95,8 +99,12 @@ export default function SQLInjectionPage() {
           <div className="bg-opacity-50 bg-black p-4 rounded-lg">
             <h3 className="font-semibold mb-2">Common Attack Vectors</h3>
             <ul className="list-disc list-inside space-y-1">
-              <li><code className="text-teal-200">OR 1=1</code> to bypass login</li>
-              <li><code className="text-teal-200">; DROP TABLE users;</code></li>
+              <li>
+                <code className="text-teal-200">OR 1=1</code> to bypass login
+              </li>
+              <li>
+                <code className="text-teal-200">; DROP TABLE users;</code>
+              </li>
               <li>UNION SELECT injections</li>
               <li>Boolean-based blind injections</li>
             </ul>
@@ -113,9 +121,7 @@ export default function SQLInjectionPage() {
         </div>
       </section>
 
-      {/* Interactive Tester */}
       <section className="grid md:grid-cols-2 gap-8 mt-12">
-        {/* URL & Param Tester */}
         <div className="bg-opacity-50 bg-black p-6 rounded-lg">
           <h3 className="text-xl font-semibold mb-4">SQL Injection Tester</h3>
           <input
