@@ -1,4 +1,4 @@
-import {BrowserRouter,Routes,Route,Navigate,} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Index from "./Pages/Index";
@@ -9,6 +9,7 @@ import NotFound from "./Pages/NotFound";
 import Navbar from "./Navbar";
 import Login from "./Pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import UserData from "./Pages/UserData";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -69,7 +70,14 @@ const App = () => {
               }
             })()}
           />
-
+          <Route
+            path="userdata"
+            element={
+              <ProtectedRoute>
+                <UserData />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="ddos"
