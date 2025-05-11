@@ -7,25 +7,24 @@ const router=express.Router();
 const mysql = require('mysql');
 const JWT_SECRET="supersecretkey";
 const XSS=require("../Models/XSSModel");
+const {scanEndpoint}=require("../lib/scanner")
 
-
-// Set up MySQL connection
 // const db = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: '',       // default in XAMPP
-//   database: 'cyber_defense'
+//   host: 'localhost',       // Database host
+//   user: 'root',            // Database user
+//   password: 'password',    // Database password
+//   database: 'your_database_name' // Database name
 // });
 
-// db.connect(err => {
+// // Connect to the database
+// db.connect((err) => {
 //   if (err) {
-//     console.error('❌ MySQL connection error:', err.message);
-//     process.exit(1);
+//     console.error('Database connection failed: ' + err.stack);
+//     return;
 //   }
-//   console.log('✅ Connected to MySQL database');
+//   console.log('Connected to the database');
 // });
-
-// Vulnerable query endpoint
+// // Vulnerable query endpoint
 router.post("/register",async(req,res)=>{
     const {email,password}=req.body;
 
@@ -122,35 +121,23 @@ router.post("/test-xss", async (req, res) => {
   }
 });
 
-router.post('/query', (req, res) => {
-  const username = req.body.username;
-  const sql = `SELECT * FROM users WHERE username = '${username}'`;
-  console.log('▶︎ Running SQL:', sql);
-
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error('SQL ERROR:', err.message);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results.length ? results : { message: 'No results found' });
-  });
-});
 
 // Terminal-style injection tester
 router.post('/terminal-query', (req, res) => {
-  const sql = req.body.query;
-  if (!sql || sql.trim() === '') {
-    return res.status(400).json({ error: 'Empty SQL query received.' });
-  }
+//   const sql = req.body.query;
+//   if (!sql || sql.trim() === '') {
+//     return res.status(400).json({ error: 'Empty SQL query received.' });
+//   }
 
-  console.log('▶︎ Terminal SQL:', sql);
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error('SQL ERROR:', err.message);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
+//   console.log('▶︎ Terminal SQL:', sql);
+//   db.query(sql, (err, results) => {
+//     if (err) {
+//       console.error('SQL ERROR:', err.message);
+//       return res.status(500).json({ error: err.message });
+//     }
+//     res.json(results);
+//   });
+ res.status(200).json({ message: "No vulnerabilites" });
 });
 
 
