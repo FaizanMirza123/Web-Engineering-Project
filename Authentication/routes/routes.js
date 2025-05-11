@@ -5,7 +5,7 @@ const User=require("../Models/User");
 const puppeteer = require('puppeteer');
 const router=express.Router();
 const mysql = require('mysql');
-const JWT_SECRET=process.env.JWT_SECRET;
+const JWT_SECRET="supersecretkey";
 const XSS=require("../Models/XSSModel");
 
 
@@ -46,7 +46,7 @@ router.post("/register",async(req,res)=>{
 });
 
 router.post("/login",async(req,res)=>{
-    
+    console.log(JWT_SECRET)
     const {email,password}=req.body
     try{
         const exist=await User.findOne({email});
