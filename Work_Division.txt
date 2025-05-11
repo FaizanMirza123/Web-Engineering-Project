@@ -1,0 +1,8 @@
+
+Abdullah Hassan: DDoS Attack FrontEnd and Backend with Nodes JS. I used WorkerThreads for multiple Requests at a time, WebSockets for Server Logs and MongoDB for Result Storage.
+
+Zakriya Malik: SQLinjection FrontEnd and Backend with Nodes JS, axios ,store reducer and  MongoDB
+
+Faizan Saleh: React Router, JWT Verification, XSS Backend, Index and Outlet, Acccount Registeration and UserData Page with backend and redux toolkit and mongodb storage. 
+
+Muneeb Tariq: XSS attack front end with redux tool kit and mongodb storage implementation
