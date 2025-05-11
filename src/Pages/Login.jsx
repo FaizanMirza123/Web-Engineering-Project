@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../features/auth/authSlice";
+
 export default function Login({ setIsLoggedIn }) {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ export default function Login({ setIsLoggedIn }) {
   const navigate = useNavigate();
   const toggleForm = () => setIsLogin(!isLogin);
   const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const password = pass1.current.value;
@@ -33,7 +35,6 @@ export default function Login({ setIsLoggedIn }) {
             email: email,
           })
         );
-
         navigate("/");
       } else {
         if (!password || !confirmPassword) {
@@ -51,7 +52,6 @@ export default function Login({ setIsLoggedIn }) {
             password,
           }
         );
-
         alert("Registration successful!");
         setIsLoggedIn(true);
         setIsLogin(true);
@@ -63,10 +63,10 @@ export default function Login({ setIsLoggedIn }) {
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/2 bg-gray-100 flex items-center justify-center text-black">
+    <div className="flex flex-col lg:flex-row h-screen">
+      <div className="w-full lg:w-1/2 bg-gray-100 flex items-center justify-center text-black p-4">
         <div className="max-w-sm w-full">
-          <h1 className="text-4xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-6 text-center">
             {isLogin ? "Login" : "Sign Up"}
           </h1>
           <form onSubmit={handleSubmit}>
@@ -140,9 +140,9 @@ export default function Login({ setIsLoggedIn }) {
           </p>
         </div>
       </div>
-      <div className="w-1/2 bg-black flex items-center justify-center text-white">
+      <div className="w-full lg:w-1/2 bg-black flex items-center justify-center text-white p-4">
         <div className="max-w-sm text-center">
-          <h1 className="text-4xl font-bold mb-6">Welcome Back!</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-6">Welcome Back!</h1>
           <p className="text-lg mb-4">Please log in to access your account.</p>
           <p className="text-sm">
             Don't have an account? Sign up to get started!
