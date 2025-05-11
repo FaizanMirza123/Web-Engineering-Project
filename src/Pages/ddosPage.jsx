@@ -6,9 +6,11 @@ import { AlertTriangle } from "lucide-react";
 import "../css/ddosPage.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import { motion } from "framer-motion";
+
 const DdosPage = () => {
+  const useremail = useSelector((state) => state.auth.email);
   const ddosData = [
     {
       type: "section",
@@ -76,10 +78,11 @@ http {
   }, []);
 
   const startAttack = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     console.log("button pressed");
     try {
       const response = await axios.post("http://localhost:5000/start-attack", {
+        useremail: useremail,
         targetUrl: inputRef.current.value,
         requestsPerSecond: parseInt(reqRef.current.value),
         durationSeconds: parseInt(durationRef.current.value),
@@ -93,15 +96,17 @@ http {
   };
   const DomainCheck = (e) => {
     console.log("Domain Check");
-    e.preventDefault();
+    e.preventDefault(); 
 
     const Userdomain = email.split("@")[1];
     const webDomain = inputRef.current.value.split("@")[1];
     if (Userdomain === webDomain) startAttack(e);
-    else {
+    else
+    {
       //alert("This domain doesn't belong to you.");
       startAttack(e);
-    }
+
+    } 
   };
   return (
     <>

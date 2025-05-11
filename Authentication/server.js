@@ -55,7 +55,7 @@ const broadcastLog = (log) => {
 };
 
 app.post('/start-attack', async (req, res) => {
-  const { targetUrl, requestsPerSecond, durationSeconds } = req.body;
+  const { useremail,targetUrl, requestsPerSecond, durationSeconds } = req.body;
 
   if (!targetUrl || !requestsPerSecond || !durationSeconds) {
     return res.status(400).json({ message: 'Missing required fields' });
@@ -64,7 +64,7 @@ app.post('/start-attack', async (req, res) => {
   console.log(`[API] Attack Requested on ${targetUrl}`);
   broadcastLog(`[API] Attack Requested on ${targetUrl}`);
 
-  performDDoSAttack(targetUrl, requestsPerSecond, durationSeconds,broadcastLog);
+  performDDoSAttack(useremail,targetUrl, requestsPerSecond, durationSeconds,broadcastLog);
 
   res.json({ message: `Started attack on ${targetUrl}` });
 });

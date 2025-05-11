@@ -2,8 +2,13 @@ const express=require("express");
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
 const User=require("../Models/User");
-const puppeteer = require('puppeteer');
+
 const router=express.Router();
+
+//const JWT_SECRET=process.env.JWT_SECRET;
+
+const puppeteer = require('puppeteer');
+
 const mysql = require('mysql');
 const JWT_SECRET="supersecretkey";
 const XSS=require("../Models/XSSModel");
@@ -45,7 +50,6 @@ router.post("/register",async(req,res)=>{
 });
 
 router.post("/login",async(req,res)=>{
-   
     const {email,password}=req.body
     console.log("Login Attempt:", { email });
     try{

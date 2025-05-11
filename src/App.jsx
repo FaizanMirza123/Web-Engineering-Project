@@ -103,7 +103,6 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
