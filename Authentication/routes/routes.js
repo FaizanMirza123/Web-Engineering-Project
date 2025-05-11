@@ -47,6 +47,7 @@ router.post("/register",async(req,res)=>{
 router.post("/login",async(req,res)=>{
     console.log(JWT_SECRET)
     const {email,password}=req.body
+    console.log("Login Attempt:", { email });
     try{
         const exist=await User.findOne({email});
         if(!exist)
@@ -177,6 +178,17 @@ router.post("/save-xss", async (req, res) => {
   }
 });
 
+router.post("/save-sql", async (req, res) => {
+  const { useremail, date, type, result } = req.body;
+
+  try {
+    const savedEntry = await XSS.create({ useremail, date, type, result });
+    res.status(200).json({ message: "Data Saved Successfully", data: savedEntry });
+  } catch (err) {
+    console.error("Error saving SQL data:", err);
+    res.status(500).json({ message: "Failed to save data", error: err.message });
+  }
+});
 router.get('/userdata', authenticateToken, async (req, res) => {
   try {
   
