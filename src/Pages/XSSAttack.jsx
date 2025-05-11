@@ -4,7 +4,11 @@ import xsstype from "../assets/xsstypeimg.jpg";
 import preventimg from "../assets/preventimg.webp";
 import DOMPurify from "dompurify";
 import { motion } from "framer-motion";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { storeresponse } from "../features/auth/xssSlice";
 const XSSAttack = (props) => {
+  const dispatch = useDispatch();
   const [comments, setcomments] = useState([]);
   const [input, setinput] = useState("");
   const [sanitize, setSanitize] = useState(false);
@@ -13,6 +17,8 @@ const XSSAttack = (props) => {
   const [xssResult, setXssResult] = useState({});
   const [isTesting, setIsTesting] = useState(false);
   const [testError, setTestError] = useState(null);
+  // const xssresponse=useSelector((state)=>state.xss.response)
+  const useremail = useSelector((state) => state.auth.email);
 
   const isValidUrl = (url) => {
     try {
@@ -37,7 +43,8 @@ const XSSAttack = (props) => {
     setXssResult({ message: "Testing...", isVulnerable: false });
 
     try {
-      const response = await fetch("http://localhost:4000/api/test-xss", {
+      console.log(useremail);
+      const response = await fetch("http://localhost:5000/api/auth/test-xss", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -54,6 +61,15 @@ const XSSAttack = (props) => {
       const data = await response.json();
       console.log("XSS Test Result:", data); // Debugging line
       setXssResult(data);
+      dispatch(storeresponse(xssResult));
+      const date = new Date();
+
+      await axios.post("http://localhost:5000/api/auth/save-xss", {
+        useremail: useremail,
+        date: date.toISOString(),
+        type: "XSS",
+        result: data,
+      });
     } catch (error) {
       console.error("Test failed:", error);
       setTestError(error.message);

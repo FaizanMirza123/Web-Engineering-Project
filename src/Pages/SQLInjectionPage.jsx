@@ -13,7 +13,7 @@ export default function SQLInjectionPage() {
   // Execute generic SQL injection scan via backend
   const handleCheck = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/check/scan", {
+      const response = await axios.post("http://localhost:5000/api/auth/scan", {
         targetUrl: url,
         paramName: param,
       });
@@ -35,7 +35,7 @@ export default function SQLInjectionPage() {
       const cmd = e.target.value.trim();
 
       axios
-        .post("http://localhost:3000/terminal-query", { query: cmd })
+        .post("http://localhost:5000/api/auth/terminal-query", { query: cmd })
         .then((res) => {
           const data = res.data;
           const output = Array.isArray(data)
@@ -102,7 +102,7 @@ export default function SQLInjectionPage() {
           <h3 className="text-xl font-semibold mb-4">SQL Injection Tester</h3>
           <input
             type="text"
-            placeholder="Target URL (e.g. http://localhost:3000/login)"
+            placeholder="Target URL (e.g. http://localhost:5000/login)"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             className="w-full p-2 mb-3 bg-gray-700 bg-opacity-75 rounded text-white"

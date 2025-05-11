@@ -65,7 +65,8 @@ export default function Login({ setIsLoggedIn }) {
         setIsLogin(true);
       }
     } catch (err) {
-      alert(err);
+      console.error(err);
+      alert(err?.response?.data?.message || "Login failed");
     }
   };
 
