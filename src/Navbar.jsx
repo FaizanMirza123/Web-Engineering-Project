@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Shield } from "lucide-react";
 import { useNavigate, Outlet } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Navbar({ setIsLoggedIn, isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);

