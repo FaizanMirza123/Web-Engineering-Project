@@ -60,7 +60,8 @@ http {
   const ws = useRef(null);
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:3000");
+    console.log("WebSocket connection established");
+    ws.current = new WebSocket("ws://localhost:5000");
 
     ws.current.onmessage = (event) => {
       console.log(event.message);
@@ -75,10 +76,10 @@ http {
   }, []);
 
   const startAttack = async (e) => {
-    e.preventDefault(); // prevent page reload
+    e.preventDefault(); 
     console.log("button pressed");
     try {
-      const response = await axios.post("http://localhost:3000/start-attack", {
+      const response = await axios.post("http://localhost:5000/start-attack", {
         targetUrl: inputRef.current.value,
         requestsPerSecond: parseInt(reqRef.current.value),
         durationSeconds: parseInt(durationRef.current.value),
@@ -91,10 +92,18 @@ http {
     }
   };
   const DomainCheck = (e) => {
+    console.log("Domain Check");
+    e.preventDefault(); 
+
     const Userdomain = email.split("@")[1];
     const webDomain = inputRef.current.value.split("@")[1];
     if (Userdomain === webDomain) startAttack(e);
-    else alert("This domain doesn't belong to you.");
+    else
+    {
+      //alert("This domain doesn't belong to you.");
+      startAttack(e);
+
+    } 
   };
   return (
     <>
@@ -186,7 +195,7 @@ http {
             />
             <button
               className="startTestingBtn col-10 my-2"
-              onClick={DomainCheck}
+              onClick={startAttack}
             >
               Start Testing
             </button>
