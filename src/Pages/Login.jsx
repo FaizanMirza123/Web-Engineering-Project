@@ -51,17 +51,9 @@ export default function Login({ setIsLoggedIn }) {
             password,
           }
         );
-        localStorage.setItem("token", res.data.token);
 
-        dispatch(
-          loginSuccess({
-            token: res.data.token,
-            user: res.data.user,
-            email: email,
-          })
-        );
         alert("Registration successful!");
-
+        setIsLoggedIn(true);
         setIsLogin(true);
       }
     } catch (err) {
