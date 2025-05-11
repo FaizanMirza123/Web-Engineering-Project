@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { storeresponse } from "../features/auth/sqlSlice"; // Adjust the path based on your file structure
+
+
 
 export default function SQLInjectionPage() {
+    const useremail1 = useSelector((state) => state.auth.email);
+  const dispatch = useDispatch();
   const [url, setUrl] = useState("");
   const [param, setParam] = useState("");
   const [results, setResults] = useState([]);
@@ -10,26 +16,44 @@ export default function SQLInjectionPage() {
     'SQL Injection Practice Terminal\nType "help" for available commands\n\n'
   );
 
-  // Execute generic SQL injection scan via backend
-  const handleCheck = async () => {
-    try {
-      const response = await axios.post("http://localhost:5000/api/auth/scan", {
-        targetUrl: url,
-        paramName: param,
-      });
-      setResults(response.data || []);
-      setError("");
-    } catch (err) {
-      setError(
-        "Request failed. Make sure the backend is running and URL is correct."
-      );
-      setResults([]);
-      console.error("Error during request:", err);
-    }
-  };
+ const handleCheck = async () => {
+  console.log("🔍 Initiating SQL injection scan...");
 
-  // Allow "query <name>" commands in the terminal
-  function handleTerminalKey(e) {
+  try {
+    const response = await axios.post("http://localhost:5000/api/auth/scan", {
+      targetUrl: url,
+      paramName: param,
+    });
+
+    const data = response.data || [];
+    console.log("✅ Scan completed. Response:", data);
+
+    setResults(data);
+    dispatch(storeresponse(data)); // Redux
+    console.log("🧠 Stored scan result in Redux.");
+
+    // Prepare save payload
+    const savePayload = {
+      useremail: useremail1, 
+      date: new Date().toISOString(),
+      type: "sql-injection",
+      result: data,
+    };
+
+    console.log("📤 Saving result to MongoDB via /save-sql:", savePayload);
+
+    const saveResponse = await axios.post("http://localhost:5000/api/auth/save-sql", savePayload);
+    console.log("✅ Saved to MongoDB. Server says:", saveResponse.data);
+
+    setError("");
+  } catch (err) {
+    console.error("❌ Request or save failed:", err);
+    setError("Request failed. Make sure the backend is running and URL is correct.");
+    setResults([]);
+  }
+};
+
+  const handleTerminalKey = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       const cmd = e.target.value.trim();
@@ -46,13 +70,11 @@ export default function SQLInjectionPage() {
           e.target.value = "";
         })
         .catch((err) => {
-          setTerminalLog(
-            (prev) => prev + `> ${cmd}\nERROR: ${err.message}\n\n`
-          );
+          setTerminalLog((prev) => prev + `> ${cmd}\nERROR: ${err.message}\n\n`);
           e.target.value = "";
         });
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-teal-600 text-white px-6 py-10">
@@ -73,12 +95,8 @@ export default function SQLInjectionPage() {
           <div className="bg-opacity-50 bg-black p-4 rounded-lg">
             <h3 className="font-semibold mb-2">Common Attack Vectors</h3>
             <ul className="list-disc list-inside space-y-1">
-              <li>
-                <code className="text-teal-200">OR 1=1</code> to bypass login
-              </li>
-              <li>
-                <code className="text-teal-200">; DROP TABLE users;</code>
-              </li>
+              <li><code className="text-teal-200">OR 1=1</code> to bypass login</li>
+              <li><code className="text-teal-200">; DROP TABLE users;</code></li>
               <li>UNION SELECT injections</li>
               <li>Boolean-based blind injections</li>
             </ul>
@@ -147,45 +165,6 @@ export default function SQLInjectionPage() {
             className="w-full p-2 bg-gray-700 bg-opacity-75 rounded text-white"
             onKeyDown={handleTerminalKey}
           />
-        </div>
-      </section>
-
-      {/* Prevention Guide */}
-      <section className="space-y-8 mt-12">
-        <h2 className="text-teal-300 text-2xl font-semibold">
-          How to Prevent SQL Injection
-        </h2>
-        <div className="bg-opacity-50 bg-black p-6 rounded-lg space-y-4">
-          <h3 className="font-semibold">1. Use Parameterized Queries</h3>
-          <pre className="bg-gray-800 bg-opacity-75 p-4 rounded font-mono text-sm">
-            {`// ❌ Vulnerable:
-const query = "SELECT * FROM users WHERE username = '" + username + "'";
-
-// ✅ Safe:
-const query = "SELECT * FROM users WHERE username = ?";
-db.execute(query, [username]);
-`}
-          </pre>
-        </div>
-        <div className="bg-opacity-50 bg-black p-6 rounded-lg">
-          <h3 className="font-semibold mb-2">2. Input Validation</h3>
-          <p>
-            Validate and sanitize all user inputs before using them in SQL
-            queries.
-          </p>
-        </div>
-        <div className="bg-opacity-50 bg-black p-6 rounded-lg">
-          <h3 className="font-semibold mb-2">3. Use ORMs / Frameworks</h3>
-          <p>
-            ORMs (e.g., Sequelize, TypeORM) abstract raw SQL and help prevent
-            injection.
-          </p>
-        </div>
-        <div className="bg-opacity-50 bg-black p-6 rounded-lg">
-          <h3 className="font-semibold mb-2">
-            4. Principle of Least Privilege
-          </h3>
-          <p>Give your DB user only the minimal permissions it needs.</p>
         </div>
       </section>
     </div>
