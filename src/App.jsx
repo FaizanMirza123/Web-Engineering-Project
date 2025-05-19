@@ -1,31 +1,4 @@
-<<<<<<< HEAD
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./Pages/Index";
-// import SQLInjection from "./pages/SQLInjection";
-// import XSSAttack from "./pages/XSSAttack";
-// import DDoSAttack from "./pages/DDoSAttack";
-import NotFound from "./Pages/NotFound";
-import Navbar from "./Navbar";
-import XSSAttack from "./Pages/XSSAttack";
-import DdosPage from "./Pages/ddosPage";
-const App = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Navbar />}>
-        <Route index element={<Index />} />
-        <Route path="ddos" element={<DdosPage />}/>
-        <Route path="xss" element={<XSSAttack />} />
-        {/* <Route path="sql-injection" element={<SQLInjection />} />
-     
-        />*/}
-        <Route path="*" element={<NotFound />} /> 
-      </Route>
-    </Routes>
-  </BrowserRouter>
-);
-
-=======
-import {BrowserRouter,Routes,Route,Navigate,} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Index from "./Pages/Index";
@@ -36,6 +9,7 @@ import NotFound from "./Pages/NotFound";
 import Navbar from "./Navbar";
 import Login from "./Pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import UserData from "./Pages/UserData";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -96,7 +70,14 @@ const App = () => {
               }
             })()}
           />
-
+          <Route
+            path="userdata"
+            element={
+              <ProtectedRoute>
+                <UserData />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="ddos"
@@ -129,5 +110,4 @@ const App = () => {
   );
 };
 
->>>>>>> 6102ec8b4d7514ec57aad7048aa43b480a5263c0
 export default App;

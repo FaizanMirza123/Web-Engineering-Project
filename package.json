@@ -11,27 +11,31 @@
     "start-server": "node src/ddosAttack/server.js"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.1",
     "@tailwindcss/vite": "^4.1.4",
+    "@tanstack/react-table": "^8.21.3",
     "autoprefixer": "^10.4.21",
-<<<<<<< HEAD
-    "axios": "^1.8.4",
-=======
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
->>>>>>> 6102ec8b4d7514ec57aad7048aa43b480a5263c0
+    "body-parser": "^2.2.0",
     "bootstrap": "^5.3.5",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+   
+    "dompurify": "^3.2.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "framer-motion": "^12.10.5",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.488.0",
-<<<<<<< HEAD
-=======
     "mongoose": "^8.14.1",
->>>>>>> 6102ec8b4d7514ec57aad7048aa43b480a5263c0
+    "mysql": "^2.18.1",
+    "mysql2": "^3.14.1",
     "postcss": "^8.5.3",
+    "puppeteer": "^24.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.5.0",
     "stress-tester": "^1.0.2",
     "tailwindcss": "^4.1.4",
