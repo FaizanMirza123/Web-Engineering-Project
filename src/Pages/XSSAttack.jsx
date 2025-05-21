@@ -43,7 +43,6 @@ const XSSAttack = (props) => {
     setXssResult({ message: "Testing...", isVulnerable: false });
 
     try {
-      console.log(useremail);
       const response = await fetch("http://localhost:5000/api/auth/test-xss", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

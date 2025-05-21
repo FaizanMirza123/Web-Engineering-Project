@@ -2,8 +2,6 @@ const express=require("express");
 const mongoose=require("mongoose");
 const cors=require("cors");
 
-const bodyParser = require('body-parser');
-const scanRouter = require('./routes/routes')
 const WebSocket =require('ws')
 const http =require('http')
 const { performDDoSAttack } = require('./ddosAttack.js');
@@ -17,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-app.use(bodyParser.json());
+
 
 mongoose.connect(process.env.MONGO_URI).then(()=>console.log("Successfully Connected")).catch((err)=>console.log(err))
 app.use('/api/auth',authRoutes)

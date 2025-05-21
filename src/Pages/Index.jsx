@@ -1,4 +1,3 @@
-
 import { Database, ShieldAlert, Zap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -11,14 +10,12 @@ export default function Index() {
       transition={{ duration: 1 }}
     >
       <div className="min-h-screen bg-cyber-black flex flex-col items-center">
-        {/* Top Titles */}
         <div className="py-12 flex justify-center items-center">
           <h1 className="text-5xl font-bold text-white inline">Cyber</h1>
           <h1 className="text-5xl font-bold text-cyber-blue inline">Defense</h1>
           <h1 className="text-5xl font-bold text-white ml-4">Playground</h1>
         </div>
 
-        {/* Description */}
         <div className="text-center py-2">
           <p className="text-gray-300 text-xl">
             Learn about common cyber attacks through interactive demonstrations
@@ -26,18 +23,17 @@ export default function Index() {
           </p>
         </div>
 
-        {/* Button */}
         <div className="flex justify-center py-8">
           <button
             className="animate-set px-6 py-3 border-2 border-cyber-blue
          text-cyber-blue text-[1.125rem] font-semibold hover:bg-cyber-fade transition-colors
-         rounded-[6px]"
+         rounded-[6px] "
+            onClick={() => navigateTo("/sql-injection")}
           >
             Start Testing
           </button>
         </div>
 
-        {/* New Title */}
         <div className="py-8 ">
           <h2 className="text-2xl font-bold text-white text-center inline ">
             Choose an
@@ -47,9 +43,7 @@ export default function Index() {
           </h2>
         </div>
 
-        {/* Cards */}
         <div className="flex flex-wrap justify-center gap-8 w-full max-w-7xl pb-8">
-          {/* Card 1 */}
           <div className="bg-cyber-dark border border-cyber-blue rounded-lg p-6 flex-1 min-w-[400px] max-w-[600px] text-white shadow-lg hover:shadow-cyber-blue transition-shadow">
             <Database className="text-cyber-blue w-12 h-12" />
             <h3 className="text-xl font-bold mb- py-4">SQL Injection</h3>
@@ -61,7 +55,7 @@ export default function Index() {
               className="animate-set px-6 py-3 border-2 border-cyber-blue
          text-cyber-blue text-[1.125rem] font-semibold hover:bg-cyber-fade transition-colors
          rounded-[6px]"
-              onClick={() => navigateTo("/sql")}
+              onClick={() => navigateTo("/sql-injection")}
             >
               Learn More
             </button>
@@ -86,10 +80,10 @@ export default function Index() {
           </div>
 
           {/* Card 3 */}
-          <div className="bg-cyber-dark border border-cyber-blue rounded-lg p-6 flex-1 min-w-[400px] max-w-[600px] text-white shadow-lg hover:shadow-cyber-blue transition-shadow">
+          <div className="bg-cyber-dark border border-cyber-blue rounded-lg p-10 flex-1 min-w-[400px] max-w-[600px] text-white shadow-lg hover:shadow-cyber-blue transition-shadow">
             <Zap className="text-cyber-green w-12 h-12" />
-            <h3 className="text-xl font-bold mb-2 py-4 pb-8">DDoS Attacks</h3>
-            <p className="text-white-400 pb-8">
+            <h3 className="text-xl font-bold mb-2 py-4 ">DDoS Attacks</h3>
+            <p className="text-white-400 py-4">
               Understand how distributed denial-of-service attacks work by
               overwhelming servers with traffic.
             </p>

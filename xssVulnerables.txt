@@ -1,5 +1,7 @@
-yes : https://xss-game.appspot.com/
+yes : http://xss-game.appspot.com/level1/frame
 yes : http://testphp.vulnweb.com/search.php
+https://demo.owasp-juice.shop/#/login
+http://testphp.vulnweb.com/login.php
 commands:
 
 <script>alert('XSS')</script>

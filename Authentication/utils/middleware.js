@@ -1,10 +1,11 @@
 const jwt=require("jsonwebtoken");
+require("dotenv").config()
 
-const JWT_SECRET="supersecretkey";
+const JWT_SECRET=process.env.JWT_SECRET;
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
-console.log(JWT_SECRET)
+
   if (!token) return res.status(401).send('No token provided');
 
   jwt.verify(token, JWT_SECRET, (err, user) => {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { storeresponse } from "../features/auth/sqlSlice";
-
+import { motion } from "framer-motion";
 export default function SQLInjectionPage() {
   const useremail1 = useSelector((state) => state.auth.email);
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default function SQLInjectionPage() {
         paramName: param,
       });
 
-      const data = response.data || [];
+      const data = response.json || [];
       console.log("✅ Scan completed. Response:", data);
 
       setResults(data);
@@ -81,98 +81,106 @@ export default function SQLInjectionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-teal-600 text-white px-6 py-10">
-      {/* Conceptual Sections */}
-      <section className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-opacity-50 bg-black p-6 rounded-lg">
-          <h2 className="text-teal-300 text-2xl font-semibold mb-4">
-            What is SQL Injection?
-          </h2>
-          <p className="leading-relaxed">
-            SQL injection occurs when user-supplied data is included directly in
-            SQL queries without proper validation or escaping. Attackers can
-            manipulate your database, bypass authentication, or extract
-            sensitive data.
-          </p>
-        </div>
-        <div className="space-y-6">
-          <div className="bg-opacity-50 bg-black p-4 rounded-lg">
-            <h3 className="font-semibold mb-2">Common Attack Vectors</h3>
-            <ul className="list-disc list-inside space-y-1">
-              <li>
-                <code className="text-teal-200">OR 1=1</code> to bypass login
-              </li>
-              <li>
-                <code className="text-teal-200">; DROP TABLE users;</code>
-              </li>
-              <li>UNION SELECT injections</li>
-              <li>Boolean-based blind injections</li>
-            </ul>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 to-teal-600 text-white px-6 py-10">
+        {/* Conceptual Sections */}
+        <section className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 bg-opacity-50 bg-black p-6 rounded-lg">
+            <h2 className="text-teal-300 text-2xl font-semibold mb-4">
+              What is SQL Injection?
+            </h2>
+            <p className="leading-relaxed">
+              SQL injection occurs when user-supplied data is included directly
+              in SQL queries without proper validation or escaping. Attackers
+              can manipulate your database, bypass authentication, or extract
+              sensitive data.
+            </p>
           </div>
-          <div className="bg-opacity-50 bg-black p-4 rounded-lg">
-            <h3 className="font-semibold mb-2">Prevention Methods</h3>
-            <ul className="list-disc list-inside space-y-1">
-              <li>Use parameterized queries</li>
-              <li>Implement input validation</li>
-              <li>Leverage ORMs / frameworks</li>
-              <li>Principle of least privilege</li>
-            </ul>
+          <div className="space-y-6">
+            <div className="bg-opacity-50 bg-black p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Common Attack Vectors</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>
+                  <code className="text-teal-200">OR 1=1</code> to bypass login
+                </li>
+                <li>
+                  <code className="text-teal-200">; DROP TABLE users;</code>
+                </li>
+                <li>UNION SELECT injections</li>
+                <li>Boolean-based blind injections</li>
+              </ul>
+            </div>
+            <div className="bg-opacity-50 bg-black p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Prevention Methods</h3>
+              <ul className="list-disc list-inside space-y-1">
+                <li>Use parameterized queries</li>
+                <li>Implement input validation</li>
+                <li>Leverage ORMs / frameworks</li>
+                <li>Principle of least privilege</li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="grid md:grid-cols-2 gap-8 mt-12">
-        <div className="bg-opacity-50 bg-black p-6 rounded-lg">
-          <h3 className="text-xl font-semibold mb-4">SQL Injection Tester</h3>
-          <input
-            type="text"
-            placeholder="Target URL (e.g. http://localhost:5000/login)"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            className="w-full p-2 mb-3 bg-gray-700 bg-opacity-75 rounded text-white"
-          />
-          <input
-            type="text"
-            placeholder="Parameter to test (e.g. username)"
-            value={param}
-            onChange={(e) => setParam(e.target.value)}
-            className="w-full p-2 mb-3 bg-gray-700 bg-opacity-75 rounded text-white"
-          />
-          <button
-            onClick={handleCheck}
-            className="px-4 py-2 bg-teal-500 rounded hover:bg-teal-600 transition"
-          >
-            Run Test
-          </button>
+        <section className="grid md:grid-cols-2 gap-8 mt-12">
+          <div className="bg-opacity-50 bg-black p-6 rounded-lg">
+            <h3 className="text-xl font-semibold mb-4">SQL Injection Tester</h3>
+            <input
+              type="text"
+              placeholder="Target URL (e.g. http://localhost:5000/login)"
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              className="w-full p-2 mb-3 bg-gray-700 bg-opacity-75 rounded text-white"
+            />
+            <input
+              type="text"
+              placeholder="Parameter to test (e.g. username)"
+              value={param}
+              onChange={(e) => setParam(e.target.value)}
+              className="w-full p-2 mb-3 bg-gray-700 bg-opacity-75 rounded text-white"
+            />
+            <button
+              onClick={handleCheck}
+              className="px-4 py-2 bg-teal-500 rounded hover:bg-teal-600 transition"
+            >
+              Run Test
+            </button>
 
-          {error && <p className="mt-4 text-red-400">{error}</p>}
+            {error && <p className="mt-4 text-red-400">{error}</p>}
 
-          <div className="mt-4 text-green-300">
-            <h4 className="font-semibold">Results:</h4>
-            {results.length === 0 ? (
-              <p>No results or no vulnerabilities found.</p>
-            ) : (
-              <pre className="whitespace-pre-wrap bg-gray-800 bg-opacity-75 p-3 rounded">
-                {JSON.stringify(results, null, 2)}
-              </pre>
-            )}
+            <div className="mt-4 text-green-300">
+              <h4 className="font-semibold">Results:</h4>
+              {results.length === 0 ? (
+                <p>No results or no vulnerabilities found.</p>
+              ) : (
+                <pre className="whitespace-pre-wrap bg-gray-800 bg-opacity-75 p-3 rounded">
+                  {JSON.stringify(results, null, 2)}
+                </pre>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Injection Terminal */}
-        <div className="bg-opacity-50 bg-black p-6 rounded-lg font-mono text-sm">
-          <h3 className="text-xl font-semibold mb-4">SQL Injection Terminal</h3>
-          <div className="h-56 overflow-y-auto bg-gray-800 bg-opacity-75 p-3 rounded mb-3 whitespace-pre-wrap">
-            {terminalLog}
+          {/* Injection Terminal */}
+          <div className="bg-opacity-50 bg-black p-6 rounded-lg font-mono text-sm">
+            <h3 className="text-xl font-semibold mb-4">
+              SQL Injection Terminal
+            </h3>
+            <div className="h-56 overflow-y-auto bg-gray-800 bg-opacity-75 p-3 rounded mb-3 whitespace-pre-wrap">
+              {terminalLog}
+            </div>
+            <input
+              type="text"
+              placeholder='Type "help" or "query <username>" and press Enter'
+              className="w-full p-2 bg-gray-700 bg-opacity-75 rounded text-white"
+              onKeyDown={handleTerminalKey}
+            />
           </div>
-          <input
-            type="text"
-            placeholder='Type "help" or "query <username>" and press Enter'
-            className="w-full p-2 bg-gray-700 bg-opacity-75 rounded text-white"
-            onKeyDown={handleTerminalKey}
-          />
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </motion.div>
   );
 }

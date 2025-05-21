@@ -6,7 +6,7 @@ import { AlertTriangle } from "lucide-react";
 import "../css/ddosPage.css";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { motion } from "framer-motion";
 
 const DdosPage = () => {
@@ -78,7 +78,7 @@ http {
   }, []);
 
   const startAttack = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     console.log("button pressed");
     try {
       const response = await axios.post("http://localhost:5000/start-attack", {
@@ -95,19 +95,24 @@ http {
     }
   };
   const DomainCheck = (e) => {
+    e.preventDefault();
     console.log("Domain Check");
-    e.preventDefault(); 
 
-    const Userdomain = email.split("@")[1];
-    const webDomain = inputRef.current.value.split("@")[1];
-    if (Userdomain === webDomain) startAttack(e);
-    else
-    {
-      //alert("This domain doesn't belong to you.");
+    const emailDomain = email.split("@")[1];
+    let urlInput = inputRef.current.value;
+
+    const url = new URL(urlInput);
+    let hostname = url.hostname.replace("www.", "");
+
+    if (emailDomain === hostname) {
+      console.log("Domains match ✔");
       startAttack(e);
-
-    } 
+    } else {
+      console.log("Domains don't match ✖");
+      alert("This domain doesn't belong to your email.");
+    }
   };
+
   return (
     <>
       <motion.div

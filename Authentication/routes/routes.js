@@ -127,7 +127,35 @@ router.post("/test-xss", async (req, res) => {
 });
 
 
+router.get("/forgot-password", async (req, res) => {
+  const { email } = req.query;
+  if (!email) return res.status(400).json({ message: "Email is required" });
 
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  res.status(200).json({ message: "User found", email: user.email });
+});
+router.patch("/reset-password", async (req, res) => {
+  const { email, newPassword } = req.body;
+  if (!email || !newPassword)
+    return res.status(400).json({ message: "Missing email or new password" });
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const hash = await bcrypt.hash(newPassword, 10);
+    user.password = hash;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 router.post('/terminal-query', (req, res) => {
 //   const sql = req.body.query;
 //   if (!sql || sql.trim() === '') {
@@ -184,7 +212,7 @@ router.post("/save-xss", async (req, res) => {
 
 router.post("/save-sql", async (req, res) => {
   const { useremail, date, type, result } = req.body;
-
+  console.log(result)
   try {
     const savedEntry = await XSS.create({ useremail, date, type, result });
     res.status(200).json({ message: "Data Saved Successfully", data: savedEntry });
@@ -193,18 +221,19 @@ router.post("/save-sql", async (req, res) => {
     res.status(500).json({ message: "Failed to save data", error: err.message });
   }
 });
-router.get('/userdata', authenticateToken, async (req, res) => {
+router.post("/userdata", authenticateToken, async (req, res) => {
   try {
-  
-    const user = await User.findById(req.user.id);
-    const xssData = await XSS.find({ useremail: user.email });
+    const email = req.body.email.trim().toLowerCase();
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
 
-    res.json({
-      user,
-      xssData,
-    });
+    const xssData = await XSS.find({useremail: email }).sort({ date: -1 });
+    res.json({ xssData });
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching data', error: err.message });
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch user data" });
   }
 });
+
 module.exports= router

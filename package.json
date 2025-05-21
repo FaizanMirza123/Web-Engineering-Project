@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.1",
-    "@tailwindcss/vite": "^4.1.4",
+    "@tailwindcss/vite": "^4.1.6",
     "@tanstack/react-table": "^8.21.3",
     "autoprefixer": "^10.4.21",
     "axios": "^1.9.0",
@@ -21,7 +21,6 @@
     "bootstrap": "^5.3.5",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-   
     "dompurify": "^3.2.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
@@ -35,10 +34,11 @@
     "puppeteer": "^24.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hot-toast": "^2.5.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.5.0",
     "stress-tester": "^1.0.2",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.6",
     "ws": "^8.18.2"
   },
   "devDependencies": {

@@ -10,7 +10,8 @@ import Navbar from "./Navbar";
 import Login from "./Pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import UserData from "./Pages/UserData";
-
+import ForgotPassword from "./Pages/forgotpassword";
+import { Toaster } from "react-hot-toast";
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -42,6 +43,31 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            borderRadius: "10px",
+            background: "#1f2937",
+            color: "#fff",
+            fontSize: "1rem",
+            padding: "14px 20px",
+          },
+          success: {
+            icon: <span style={{ fontSize: "1.5rem" }}>✅</span>,
+            style: {
+              background: "#16a34a",
+            },
+          },
+          error: {
+            icon: <span style={{ fontSize: "1.8rem" }}>⚠️</span>,
+            style: {
+              background: "#dc2626",
+            },
+          },
+        }}
+      />
+
       <Routes>
         <Route
           path="/"
@@ -49,6 +75,7 @@ const App = () => {
             <Navbar setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
           }
         >
+          <Route path="forgot-password" element={<ForgotPassword />} />
           <Route
             index
             element={(() => {

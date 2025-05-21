@@ -44,6 +44,7 @@ const performDDoSAttack = (userEmail,targetUrl, requestsPerSecond, durationSecon
       const exitMsg = `server>[ Attack Thread ${i + 1}] Exited with code ${code}`;
       console.log(exitMsg);
       broadcastLog(exitMsg);
+      logs= `${logs}\n${exitMsg}`;
       exitedCount++; 
 
         if (exitedCount === threadCount) { // ADD FROM HERE
